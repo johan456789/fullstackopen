@@ -1,15 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const App = (props) => {
-  const [selected, setSelected] = useState(0)
-
-  return (
-    <div>
-      {props.anecdotes[selected]}
-    </div>
-  )
-}
 
 const anecdotes = [
   'If it hurts, do it more often',
@@ -19,6 +10,43 @@ const anecdotes = [
   'Premature optimization is the root of all evil.',
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
+
+function randBetween(min, max, exclude) {
+  let randNum = Math.round(Math.random() * (max - min) + min);
+  if (exclude !== randNum) {
+    return randNum;
+  } else {
+    console.log('same number!')
+    return randBetween(min, max, exclude);
+  }
+}
+
+const Button = ({ onClick, text }) => {
+  return (
+    <button onClick={onClick}>
+      {text}
+    </button>
+  )
+}
+
+const Quote = ({anecdotes, index}) => {
+  return (
+    <div>
+      {anecdotes[index]}
+    </div>
+  )
+}
+
+const App = (props) => {
+  const [selected, setSelected] = useState(0)
+
+  return (
+    <>
+      <Quote anecdotes={anecdotes} index={selected} />
+      <Button onClick={() => setSelected(randBetween(0, anecdotes.length - 1, selected))} text='next anecdote'/>
+    </>
+  )
+}
 
 ReactDOM.render(
   <App anecdotes={anecdotes} />,
