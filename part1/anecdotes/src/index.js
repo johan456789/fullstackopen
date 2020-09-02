@@ -12,7 +12,7 @@ const anecdotes = [
 ]
 
 function randBetween(min, max, exclude) {
-  let randNum = Math.round(Math.random() * (max - min) + min);
+  const randNum = Math.round(Math.random() * (max - min) + min);
   if (exclude !== randNum) {
     return randNum;
   } else {
@@ -29,26 +29,43 @@ const Button = ({ onClick, text }) => {
   )
 }
 
-const Quote = ({anecdotes, index}) => {
+const Quote = ({anecdotes, index, votes}) => {
   return (
-    <div>
-      {anecdotes[index]}
-    </div>
+    <>
+      <div>
+        {anecdotes[index]}
+      </div>
+      <div>
+        has {votes[index]} votes.
+      </div>
+    </>
   )
 }
 
-const App = (props) => {
+const App = () => {
   const [selected, setSelected] = useState(0)
+  const quoteNum = anecdotes.length
+  const [votes, setVotes] = useState(Array.apply(null, new Array(quoteNum)).map(Number.prototype.valueOf, 0))
+
+  console.log('votes', votes)
+  // console.log('selected', selected)
+
+  const setVotesHelper = (selected) => {
+    const copy = [...votes]
+    copy[selected] += 1
+    setVotes(copy)
+  }
 
   return (
     <>
-      <Quote anecdotes={anecdotes} index={selected} />
-      <Button onClick={() => setSelected(randBetween(0, anecdotes.length - 1, selected))} text='next anecdote'/>
+      <Quote anecdotes={anecdotes} index={selected} votes={votes}/>
+      <Button onClick={() => setVotesHelper(selected)} text='Vote!'/>
+      <Button onClick={() => setSelected(randBetween(0, quoteNum - 1, selected))} text='Next anecdote'/>
     </>
   )
 }
 
 ReactDOM.render(
-  <App anecdotes={anecdotes} />,
+  <App />,
   document.getElementById('root')
 )
