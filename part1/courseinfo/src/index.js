@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 // Header takes care of rendering the name of the course
@@ -33,8 +33,13 @@ const Total = ({parts}) => {
   )
 }
 
-const App = (props) => {
-  const {counter} = props
+const App = () => {
+  const [counter, setCounter] = useState(0)
+  setTimeout(
+    () => setCounter(counter + 1),
+    1000
+  )
+
   const course = {
     name: 'Half Stack application development',
     parts: [
@@ -63,18 +68,8 @@ const App = (props) => {
   )
 }
 
-let counter = 1
 
-const refresh = () => {
-  ReactDOM.render(
-    <App counter={counter} />, 
-    document.getElementById('root')
-  )
-}
-
-// Making repeated calls to the ReactDOM.render method 
-// is not the recommended way to re - render components.
-setInterval(() => {
-  refresh()
-  counter += 1
-}, 1000);
+ReactDOM.render(
+  <App />, 
+  document.getElementById('root')
+)
