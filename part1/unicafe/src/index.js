@@ -23,14 +23,21 @@ const Statistics = ({good, neutral, bad}) => {
   }
 
   return (
-    <>
-      <p>Good {good}</p>
-      <p>Neutral {neutral}</p>
-      <p>Bad {bad}</p>
-      <p>All {good + neutral + bad}</p>
-      <p>Average {(good * 1 + neutral * 0 + bad * -1) / 3}</p>
-      <p>Positive {good / (good + neutral + bad) * 100} %</p>
-    </>
+    <div>
+      <Stat text='Good' number={good} />
+      <Stat text='Good' number={good} />
+      <Stat text='Neutral' number={neutral} />
+      <Stat text='Bad' number={bad} />
+      <Stat text='All' number={good + neutral + bad} />
+      <Stat text='Average' number={(good * 1 + neutral * 0 + bad * -1) / 3} />
+      <Stat text='Positive' number={good / (good + neutral + bad) * 100} unit='%' />
+    </div>
+  )
+}
+
+const Stat = ({text, number, unit}) => {
+  return (
+    <p>{text} {number} {unit}</p>
   )
 }
 
