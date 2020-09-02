@@ -8,32 +8,33 @@ const Head = (props) => {
   )
 }
 
-const Content = (props) => {
+const Content = ({parts}) => {
   return (
     <div>
-      <Part part={props.parts[0].name} exercises={props.parts[0].exercises}/>
-      <Part part={props.parts[1].name} exercises={props.parts[1].exercises}/>
-      <Part part={props.parts[2].name} exercises={props.parts[2].exercises}/>
+      <Part part={parts[0].name} exercises={parts[0].exercises}/>
+      <Part part={parts[1].name} exercises={parts[1].exercises}/>
+      <Part part={parts[2].name} exercises={parts[2].exercises}/>
     </div>
   )
 }
 
-const Part = (props) => {
+const Part = ({part, exercises}) => {
   return (
     <p>
-      {props.part} {props.exercises}
+      {part} {exercises}
     </p>
   )
 }
 
 // Total renders the total number of exercises.
-const Total = (props) => {
+const Total = ({parts}) => {
   return (
-    <p>Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</p>
+    <p>Number of exercises {parts[0].exercises + parts[1].exercises + parts[2].exercises}</p>
   )
 }
 
-const App = () => {
+const App = (props) => {
+  const {counter} = props
   const course = {
     name: 'Half Stack application development',
     parts: [
@@ -57,8 +58,23 @@ const App = () => {
       <Head course={course.name}/>
       <Content parts={course.parts}/>
       <Total parts={course.parts}/>
+      <div>{counter}</div>
     </div>
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+let counter = 1
+
+const refresh = () => {
+  ReactDOM.render(
+    <App counter={counter} />, 
+    document.getElementById('root')
+  )
+}
+
+// Making repeated calls to the ReactDOM.render method 
+// is not the recommended way to re - render components.
+setInterval(() => {
+  refresh()
+  counter += 1
+}, 1000);
