@@ -21,6 +21,12 @@ function randBetween(min, max, exclude) {
   }
 }
 
+const Header = ({title}) => {
+  return (
+    <h1>{title}</h1>
+  )
+}
+
 const Button = ({ onClick, text }) => {
   return (
     <button onClick={onClick}>
@@ -47,20 +53,23 @@ const App = () => {
   const quoteNum = anecdotes.length
   const [votes, setVotes] = useState(Array.apply(null, new Array(quoteNum)).map(Number.prototype.valueOf, 0))
 
-  console.log('votes', votes)
-  // console.log('selected', selected)
-
   const setVotesHelper = (selected) => {
     const copy = [...votes]
     copy[selected] += 1
     setVotes(copy)
   }
 
+  const maxVoteIndex = votes.indexOf(Math.max(...votes));  // less efficient one-liner
+  
+  console.log('votes', votes)
   return (
     <>
+      <Header title='Anecdote of the day' />
       <Quote anecdotes={anecdotes} index={selected} votes={votes}/>
       <Button onClick={() => setVotesHelper(selected)} text='Vote!'/>
       <Button onClick={() => setSelected(randBetween(0, quoteNum - 1, selected))} text='Next anecdote'/>
+      <Header title='Anecdote with most votes' />
+      <Quote anecdotes={anecdotes} index={maxVoteIndex} votes={votes} />
     </>
   )
 }
