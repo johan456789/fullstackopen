@@ -15,3 +15,7 @@
 ## ex2.9
 
 ![scr](https://i.imgur.com/nOkIdwZ.jpg)
+
+## ex2.10
+
+![scr](https://i.imgur.com/buhnUlh.jpg)
