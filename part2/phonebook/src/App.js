@@ -9,6 +9,10 @@ const App = () => {
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [filter, setFilter] = useState('')
+  const personsToShow = (filter === '') 
+                        ? persons 
+                        : persons.filter(p => p.name.toLowerCase().includes(filter))
 
   const nameChangeHandler = (event) => {
     const name = event.target.value
@@ -18,6 +22,11 @@ const App = () => {
   const numberChangeHandler = (event) => {
     const number = event.target.value
     setNewNumber(number)
+  }
+
+  const filterChangeHandler = (event) => {
+    const filter = event.target.value
+    setFilter(filter)
   }
 
   const addPerson = (event) => {
@@ -36,7 +45,8 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <h2>Add a new</h2>
       <form onSubmit={addPerson}>
         <div>
           Name: <input value={newName} onChange={nameChangeHandler}/>
@@ -49,8 +59,13 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
+      <div>
+        Filter names shown with (case-insensitive): <input 
+          value={filter} onChange={filterChangeHandler}
+        />
+      </div>
         <dl>
-          {persons.map((p) => <dt key={p.name}>{p.name}: {p.number}</dt>)}
+          {personsToShow.map((p) => <dt key={p.name}>{p.name}: {p.number}</dt>)}
         </dl>
     </div>
   )
