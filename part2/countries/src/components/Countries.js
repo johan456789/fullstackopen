@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const showCountry = (x) => {
   return (
@@ -19,13 +20,14 @@ const Country = ({name, flag, capital, population, lang}) => {
           Capital: {capital}
         </dt>
         <dt>
-          Population: {population}
+          Population: {population.toLocaleString('en-US')}
         </dt>
       </dl>
       <h3>Languages</h3>
       <div>
         {lang.map((x) => <li key={x.name}>{x.name}</li>)}
       </div>
+      <Weather city={capital} />
     </>
   )
 }
@@ -50,6 +52,47 @@ const Countries = ({countries}) => {
       {countries.map((x) => <CountryListItem key={x.name} country={x}/>
       )}
     </dl>
+  )
+}
+
+const Weather = ({city}) => {
+  const [weather, setWeather] = useState('')
+  const api_key = process.env.REACT_APP_WEATHERSTACK_API_KEY
+  const params = {
+    access_key: api_key,
+    query: city,
+    units: 'm'
+  }
+  const url = 'http://api.weatherstack.com/current'
+
+  const hook = () => {
+    console.log('effect: weather')
+    const promise = axios.get(url, {params})
+    const eventHandler = response => {
+      console.log('promise fulfilled: weather')
+      setWeather(response.data['current'])
+    }
+    promise.then(eventHandler)
+  }
+  useEffect(hook, [])  // []: only run during the 1st render
+
+  const title = <h3>Weather in {city}</h3>
+  if (weather === '')
+    return <>{title} Loading weather...</>
+
+  return (
+    <>
+      {title}
+      <dl>
+        <img alt='weather icon' src={weather['weather_icons'][0]} />
+        <dt>
+          Temperature: {weather['temperature']} Celsius
+        </dt>
+        <dt>
+          Wind: {weather['wind_speed']} kph direction {weather['wind_dir']}
+        </dt>
+      </dl>
+    </>
   )
 }
 

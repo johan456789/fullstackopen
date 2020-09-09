@@ -9,10 +9,10 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   const hook = () => {
-    console.log('effect')
+    console.log('effect: countries')
     const promise = axios.get('https://restcountries.eu/rest/v2/all')
     const eventHandler = response => {
-      console.log('promise fulfilled')
+      console.log('promise fulfilled: countries')
       setCountries(response.data)
     }
     promise.then(eventHandler)
