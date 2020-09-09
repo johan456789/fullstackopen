@@ -16,6 +16,6 @@
 
 ![scr](https://i.imgur.com/nOkIdwZ.jpg)
 
-## ex2.10
+## ex2.10 & ex2.11
 
 ![scr](https://i.imgur.com/buhnUlh.jpg)
