@@ -1,17 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-
-const Language = ({lang}) => {
+const showCountry = (x) => {
   return (
-    <li>{lang}</li>
+    <dl>
+      <Country key={x.name} name={x.name} flag={x.flag} capital={x.capital}
+        population={x.population} lang={x.languages} />
+    </dl>
   )
 }
 
 const Country = ({name, flag, capital, population, lang}) => {
-  console.log(flag)
   return (
     <>
-      <h1>{name}</h1>
+      <h2>{name}</h2>
       <img height='200px' alt='flag' src={flag} />
       <dl>
         <dt>
@@ -21,36 +22,32 @@ const Country = ({name, flag, capital, population, lang}) => {
           Population: {population}
         </dt>
       </dl>
-      <h2>Languages</h2>
+      <h3>Languages</h3>
       <div>
-        {lang.map((x) => <Language key={x.name} lang={x.name} />)}
+        {lang.map((x) => <li key={x.name}>{x.name}</li>)}
       </div>
     </>
   )
 }
 
-const CountryList = ({name}) => {
-  return (
-    <dt>{name}</dt>
+const CountryListItem = ({country}) => {
+  const [countryItem, setCountryItem] = useState(
+    <dt>
+      {country.name} <button onClick={() => setCountryItem(showCountry(country))}>show</button>
+    </dt>
   )
+  return countryItem
 }
 
 const Countries = ({countries}) => {
   if (countries.length > 10) {
     return 'Too many matches, specify another filter.'
   } else if (countries.length === 1){
-    return (
-      <dl>
-        {countries.map((x) => 
-          <Country key={x.name} name={x.name} flag={x.flag} capital={x.capital}
-          population={x.population} lang={x.languages} />
-        )}
-      </dl>
-    )
+    return showCountry(countries[0])
   }
   return (
     <dl>
-      {countries.map((x) => <CountryList key={x.name} name={x.name}/>
+      {countries.map((x) => <CountryListItem key={x.name} country={x}/>
       )}
     </dl>
   )
