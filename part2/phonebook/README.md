@@ -19,3 +19,7 @@
 ## ex2.10 & ex2.11
 
 ![scr](https://i.imgur.com/buhnUlh.jpg)
+
+## ex2.15 & ex2.16
+
+![src](https://i.imgur.com/aEtwEGd.gif)
