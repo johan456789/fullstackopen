@@ -17,7 +17,9 @@ const App = () => {
   
   const personsToShow = (filter === '') 
                       ? persons 
-                      : persons.filter(p => p.name.toLowerCase().includes(filter))
+                      : persons.filter(p => 
+                        p.name.toLowerCase().includes(filter)
+                      )
   console.log('render', personsToShow.length, 'persons')
 
 
@@ -38,13 +40,21 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-
-    if (persons.map((p) => p.name).includes(newName)) {
-      console.log(`duplicate: ${newName}`)
-      alert(`${newName} is already added to phonebook.`)
+    const personObject = {'name': newName, 'number': newNumber}
+    let existingPerson = persons.filter(p => p.name === newName)
+    
+    if (existingPerson.length !== 0) {
+      const updatedPerson = { ...existingPerson[0], number: newNumber }
+      if (window.confirm(`${newName} is already added to phonebook, `
+          + `replace the old number with a new one?`)) {
+        PersonsService
+          .update(updatedPerson.id, updatedPerson)
+          .then(setPersons(persons.filter(p => p.name !== newName)
+                                  .concat(updatedPerson)))
+          .then(setNewName(''))
+          .then(setNewNumber(''))
+      }
     } else {
-      const personObject = {'name': newName, 'number': newNumber}
-
       PersonsService.create(personObject)
         .then(data => {
           setPersons(persons.concat({ ...personObject, id: data.id }))
@@ -67,7 +77,8 @@ const App = () => {
     <div>
       <h1>Phonebook</h1>
       <h2>Add a new</h2>
-        <Form  onSubmit={addPerson} newValues={[newName, newNumber]} changeHandler={[nameChangeHandler, numberChangeHandler]} />
+        <Form  onSubmit={addPerson} newValues={[newName, newNumber]} 
+        changeHandler={[nameChangeHandler, numberChangeHandler]} />
       <h2>Numbers</h2>
       <Filter filter={filter} changeHandler={filterChangeHandler}/>
       <Persons persons={personsToShow} delPerson={delPerson}/>

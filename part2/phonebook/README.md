@@ -27,3 +27,7 @@
 ## ex2.17
 
 ![src](https://i.imgur.com/BAZOxr5.gif)
+
+## ex2.18
+
+![src](https://i.imgur.com/fbicswe.gif)
