@@ -23,3 +23,7 @@
 ## ex2.15 & ex2.16
 
 ![src](https://i.imgur.com/aEtwEGd.gif)
+
+## ex2.17
+
+![src](https://i.imgur.com/BAZOxr5.gif)

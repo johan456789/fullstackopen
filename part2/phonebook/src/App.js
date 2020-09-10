@@ -46,9 +46,20 @@ const App = () => {
       const personObject = {'name': newName, 'number': newNumber}
 
       PersonsService.create(personObject)
-        .then(setPersons(persons.concat(personObject)))
+        .then(data => {
+          setPersons(persons.concat({ ...personObject, id: data.id }))
+        })
         .then(setNewName(''))
         .then(setNewNumber(''))
+    }
+  }
+
+  const delPerson = (person) => {
+    if (!persons.map(p => p.id).includes(person.id)) {
+      console.log(`No person ${person.id}`)
+    } else if (window.confirm(`Delete ${person.name}?`)) {
+        PersonsService.delete_(person.id)
+          .then(setPersons(persons.filter(p => p.id !== person.id)))
     }
   }
 
@@ -59,7 +70,7 @@ const App = () => {
         <Form  onSubmit={addPerson} newValues={[newName, newNumber]} changeHandler={[nameChangeHandler, numberChangeHandler]} />
       <h2>Numbers</h2>
       <Filter filter={filter} changeHandler={filterChangeHandler}/>
-      <Persons persons={personsToShow}/>
+      <Persons persons={personsToShow} delPerson={delPerson}/>
     </div>
   )
 }
