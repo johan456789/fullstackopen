@@ -31,3 +31,7 @@
 ## ex2.18
 
 ![src](https://i.imgur.com/fbicswe.gif)
+
+## ex2.19
+
+![src](https://i.imgur.com/FAHeIgs.gif)
