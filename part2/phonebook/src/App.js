@@ -51,6 +51,11 @@ const App = () => {
           + `replace the old number with a new one?`)) {
         PersonsService
           .update(updatedPerson.id, updatedPerson)
+          .catch(error => {
+            setMessage(
+              [`Information of ${newName} was already removed from server. `, 1]
+            )
+          })
           .then(setPersons(persons.filter(p => p.name !== newName)
                                   .concat(updatedPerson)))
           .then(setNewName(''))
