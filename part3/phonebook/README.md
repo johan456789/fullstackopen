@@ -19,3 +19,7 @@
 ## ex3.5 & ex3.6
 
 ![src](https://i.imgur.com/96mxx8N.gif)
+
+## ex3.7
+
+![src](https://i.imgur.com/eOaVDSV.jpg)
