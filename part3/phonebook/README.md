@@ -23,3 +23,7 @@
 ## ex3.7
 
 ![src](https://i.imgur.com/eOaVDSV.jpg)
+
+## ex3.8
+
+![src](https://i.imgur.com/r1FTjas.jpg)
