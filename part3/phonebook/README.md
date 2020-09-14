@@ -31,3 +31,9 @@
 ## ex3.9
 
 No screenshot
+
+## ex3.10
+
+Backend server deployed at: https://fsopen-phonebook-be.herokuapp.com
+
+![Screen Shot 2020-09-14 at 18.06.09](https://i.imgur.com/AzYO2vk.jpg)
