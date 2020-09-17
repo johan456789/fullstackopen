@@ -48,18 +48,16 @@ app.post('/api/persons', (req, res) => {
   if (!body.name || !body.number) {
     return res.status(400).json({error: 'Name or number missing'})
   }
-  if (persons.find(p => p.name === body.name)) {
-    return res.status(404).json({error: 'name must be unique'})
-  }
-
-  getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max))
-  const personObject = {
-    "name": body.name,
-    "number": body.number,
-    "id": getRandomInt(1<<10)
-  }
-  persons = persons.concat(personObject)
-  res.json(personObject)
+  Person.exists({ name: body.name }).then(exists => {
+    if (exists) {
+      return res.status(404).json({ error: 'Name must be unique' })
+    }
+    const person = new Person({
+      name: body.name,
+      number: body.number
+    })
+    person.save().then(savedPerson => res.json(savedPerson))
+  })
 })
 
 const PORT = process.env.PORT

@@ -49,3 +49,7 @@ No screenshot
 ## ex3.13
 
 ![](https://i.imgur.com/zjAxuCk.jpg)
+
+## ex3.14
+
+No screenshot
