@@ -41,3 +41,7 @@ Backend server deployed at: https://fsopen-phonebook-be.herokuapp.com
 ## ex3.11
 
 No screenshot
+
+## ex3.12
+
+![](https://i.imgur.com/sWqcGJe.png)
