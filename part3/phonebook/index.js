@@ -5,6 +5,7 @@ const cors = require('cors')
 const Person = require('./models/person')  // database
 
 const app = express()
+app.use(express.json())  // remember this
 app.use(express.static('build'))
 app.use(cors())
 app.use(morgan((tokens, req, res) => {
@@ -47,7 +48,6 @@ app.delete('/api/persons/:id', (req, res, next) => {
     .catch(error => next(error))
 })
 
-app.use(express.json())  // remember this
 app.post('/api/persons', (req, res) => {
   const body = req.body
   if (!body.name || !body.number) {
@@ -63,6 +63,22 @@ app.post('/api/persons', (req, res) => {
     })
     person.save().then(savedPerson => res.json(savedPerson))
   })
+})
+
+app.put('/api/persons/:id', (req, res, next) => {
+  const id = req.params.id
+  const body = req.body
+  if (!body.name || !body.number) {
+    return res.status(400).json({ error: 'Name or number missing' })
+  }
+
+  const person = {
+    name: body.name,
+    number: body.number
+  }
+  Person.findByIdAndUpdate(id, person, {new: true})
+    .then(updatedPerson => res.json(updatedPerson))
+    .catch(error => next(error))
 })
 
 const errorHandler = (error, req, res, next) => {
