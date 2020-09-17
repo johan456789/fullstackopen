@@ -50,6 +50,6 @@ No screenshot
 
 ![](https://i.imgur.com/zjAxuCk.jpg)
 
-## ex3.14
+## ex3.14 & ex3.15 & 3.16
 
 No screenshot

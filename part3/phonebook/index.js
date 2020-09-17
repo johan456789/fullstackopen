@@ -33,13 +33,18 @@ app.get('/api/persons/:id', (req, res) => {
   // error handing is ex3.15-ex3.18
 })
 
-app.delete('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id)
-  if (!persons.find(p => p.id === id)) {
-    res.status(404).end()
-  }
-  persons = persons.filter(p => p.id !== id)
-  res.status(204).end()
+app.delete('/api/persons/:id', (req, res, next) => {
+  const id = req.params.id
+
+  Person.findByIdAndRemove(id)
+    .then(result => {
+      if (result) {
+        res.status(204).end()
+      } else {
+        res.status(404).end()
+      }
+    })
+    .catch(error => next(error))
 })
 
 app.use(express.json())  // remember this
@@ -59,6 +64,15 @@ app.post('/api/persons', (req, res) => {
     person.save().then(savedPerson => res.json(savedPerson))
   })
 })
+
+const errorHandler = (error, req, res, next) => {
+  console.error(error.message)
+  if (error.name === 'CastError') {
+    return res.status(400).send({ error: 'Malformatted id' })
+  }
+  next(error)  // middleware passes the error forward to the default Express error handler.
+}
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
