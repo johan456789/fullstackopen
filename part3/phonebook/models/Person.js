@@ -6,7 +6,7 @@ console.log('Connecting to', url)
 
 mongoose.set('useCreateIndex', true)
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(result => {
+  .then(() => {
     console.log('Connected to MongoDB')
   })
   .catch((error) => {

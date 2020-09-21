@@ -65,3 +65,7 @@ No screenshot
 ## ex3.21
 
 No screenshot
+
+## ex3.22
+
+No screenshot. Added ESLint and fixed all warnings.

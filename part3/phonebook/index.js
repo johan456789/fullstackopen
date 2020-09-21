@@ -74,14 +74,14 @@ app.put('/api/persons/:id', (req, res, next) => {
   const id = req.params.id
   const body = req.body
   if (body.number.length < 8) {
-    return res.status(400).json({ error: 'Minimum length of number is 8.'})
+    return res.status(400).json({ error: 'Minimum length of number is 8.' })
   }
 
   const person = {
     name: body.name,
     number: body.number
   }
-  Person.findByIdAndUpdate(id, person, {new: true})
+  Person.findByIdAndUpdate(id, person, { new: true })
     .then(updatedPerson => res.json(updatedPerson))
     .catch(error => next(error))
 })
