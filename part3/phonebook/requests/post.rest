@@ -10,6 +10,14 @@ POST http://localhost:3001/api/persons
 content-type: application/json
 
 {
+  "name": "Alice",
+  "number": "091234-56789"
+}
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
   "name": "",
   "number": "012345689"
 }
@@ -26,6 +34,14 @@ POST http://localhost:3001/api/persons
 content-type: application/json
 
 {
-  "name": "Alice",
-  "number": "091234-56789"
+  "name": "xx",
+  "number": "The name is too short."
+}
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+  "name": "The number is too short.",
+  "number": "12345"
 }

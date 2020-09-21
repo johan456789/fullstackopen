@@ -61,9 +61,6 @@ app.delete('/api/persons/:id', (req, res, next) => {
 
 app.post('/api/persons', (req, res, next) => {
   const body = req.body
-  if (!body.name || !body.number) {
-    return res.status(400).json({error: 'Name or number missing'})
-  }
   const person = new Person({
     name: body.name,
     number: body.number
@@ -76,8 +73,8 @@ app.post('/api/persons', (req, res, next) => {
 app.put('/api/persons/:id', (req, res, next) => {
   const id = req.params.id
   const body = req.body
-  if (!body.name || !body.number) {
-    return res.status(400).json({ error: 'Name or number missing' })
+  if (body.number.length < 8) {
+    return res.status(400).json({ error: 'Minimum length of number is 8.'})
   }
 
   const person = {

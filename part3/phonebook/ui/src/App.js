@@ -51,32 +51,42 @@ const App = () => {
           + `replace the old number with a new one?`)) {
         PersonsService
           .update(updatedPerson.id, updatedPerson)
-          .catch(error => {
-            setMessage(
-              [`Information of ${newName} was already removed from server. `, 1]
-            )
+          .then(() => {
+            setPersons(persons.filter(p => p.name !== newName)
+              .concat(updatedPerson))
+            setMessage([`Updated ${newName}`, 0])
           })
-          .then(setPersons(persons.filter(p => p.name !== newName)
-                                  .concat(updatedPerson)))
-          .then(setNewName(''))
-          .then(setNewNumber(''))
-          .then(setMessage(
-            [`Updated ${newName}`, 0]
-          ))
+          .catch(error => {
+            const errorMsg = error.response.data.error
+            console.log(errorMsg)
+            setMessage([errorMsg, 1])
+          })
+          .then(() => {
+            setNewName('')
+            setNewNumber('')
+          })
           .then(setTimeout(() => {
             setMessage([null, null])
           }, 1000))
       }
     } else {
       PersonsService.create(personObject)
+        .catch(error => {
+          const errorMsg = error.response.data.error
+          console.error(errorMsg)
+          setMessage([errorMsg, 1])
+        })
         .then(data => {
           setPersons(persons.concat({ ...personObject, id: data.id }))
+          setMessage([`Added ${newName}`, 0])
         })
-        .then(setNewName(''))
-        .then(setNewNumber(''))
-        .then(setMessage(
-          [`Added ${newName}`, 0]
-        ))
+        .catch(error => {
+          console.error(error)
+        })
+        .then(() => {
+          setNewName('')
+          setNewNumber('')
+        })
         .then(setTimeout(() => {
           setMessage([null, null])
         }, 1000))
