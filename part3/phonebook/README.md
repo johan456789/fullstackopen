@@ -61,3 +61,7 @@ No screenshot
 ## ex3.20
 
 ![](https://i.imgur.com/QfUKaYq.gif)
+
+## ex3.21
+
+No screenshot
