@@ -64,17 +64,12 @@ app.post('/api/persons', (req, res, next) => {
   if (!body.name || !body.number) {
     return res.status(400).json({error: 'Name or number missing'})
   }
-  Person.exists({ name: body.name })
-    .then(exists => {
-      if (exists) {
-        return res.status(404).json({ error: 'Name must be unique' })
-      }
-      const person = new Person({
-        name: body.name,
-        number: body.number
-      })
-      person.save().then(savedPerson => res.json(savedPerson))
-    })
+  const person = new Person({
+    name: body.name,
+    number: body.number
+  })
+  person.save()
+    .then(savedPerson => res.json(savedPerson))
     .catch(error => next(error))
 })
 
@@ -95,10 +90,12 @@ app.put('/api/persons/:id', (req, res, next) => {
 })
 
 const errorHandler = (error, req, res, next) => {
-  console.error(error.message)
   if (error.name === 'CastError') {
     return res.status(400).send({ error: 'Malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return res.status(400).json({ error: error.message })
   }
+
   next(error)  // middleware passes the error forward to the default Express error handler.
 }
 app.use(errorHandler)
