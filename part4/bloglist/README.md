@@ -11,3 +11,7 @@ No screenshot
 ## ex4.3
 
 ![](https://i.imgur.com/UTAjpRH.jpg)
+
+## ex4.4
+
+![](https://i.imgur.com/gGymQ58.jpg)
