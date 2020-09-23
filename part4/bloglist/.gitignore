@@ -18,7 +18,6 @@
 .env.test.local
 .env.production.local
 .env
-.git2
 
 npm-debug.log*
 yarn-debug.log*
