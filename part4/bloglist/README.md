@@ -19,3 +19,7 @@ No screenshot
 ## ex4.5
 
 ![](https://i.imgur.com/RiWwEdL.jpg)
+
+## ex4.6 & ex4.7
+
+![](https://i.imgur.com/YZLzqrx.jpg)
