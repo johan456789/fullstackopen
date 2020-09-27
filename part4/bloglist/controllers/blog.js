@@ -9,17 +9,22 @@ blogRouter.get('/blogs', (request, response) => {
     })
 })
 
-blogRouter.post('/blogs', (request, response) => {
-  if (!request.body.likes) {
-    request.body.likes = 0
+blogRouter.post('/blogs', (request, response, next) => {
+  const body = request.body
+  if (!body.likes) {
+    body.likes = 0
+  } else if (!body.title && !body.url) {
+    response.status(400).end()
+    return
   }
-  const blog = new Blog(request.body)
+  const blog = new Blog(body)
 
   blog
     .save()
     .then(result => {
       response.status(201).json(result)
     })
+    .catch(error => next(error))
 })
 
 module.exports = blogRouter
