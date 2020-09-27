@@ -2,21 +2,14 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const helper = require('./test_helper')
 
 const api = supertest(app)
 
-const initialBlogs = [
-  {
-    title: 'Test',
-    author: 'No name',
-    url: 'https://example.com',
-    likes: 999
-  }
-]
 beforeEach(async () => {
   await Blog.deleteMany({})
 
-  for (let blog of initialBlogs) {
+  for (let blog of helper.initialBlogs) {
     let blogObject = new Blog(blog)
     await blogObject.save()
   }
