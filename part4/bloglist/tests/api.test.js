@@ -65,6 +65,22 @@ test('add a new blog post', async () => {
   expect(addedBlog).toEqual(newBlog)
 })
 
+test('likes defaults to 0 if missing', async () => {
+  const newBlog = {
+    title: 'Test2',
+    author: 'No name2',
+    url: 'https://example.com2',
+  }
+
+  let response = await api.post('/api/blogs').send(newBlog)
+  const blogID = response.body.id
+
+  response = await api.get('/api/blogs')
+  const blogs = response.body
+  let addedBlog = blogs.filter(x => x.id === blogID)[0]
+  expect(addedBlog.likes).toBe(0)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
