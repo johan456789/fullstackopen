@@ -11,6 +11,13 @@ test('getting blog posts', async () => {
     .expect('Content-Type', /application\/json/)
 })
 
+test('check id property exists', async () => {
+  const response = await api.get('/api/blogs')
+  const blogs = response.body
+
+  expect(blogs[0].id).toBeDefined()
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
