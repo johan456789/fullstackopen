@@ -85,6 +85,24 @@ test('bad request: missing title and url', async () => {
     .expect(400)
 })
 
+test('delete one blog post', async () => {
+  // get initial blogs
+  let response = await api.get('/api/blogs')
+  let blogs = response.body
+  const blogID = blogs[0].id
+  const initialLength = blogs.length
+
+  // delete one blog
+  await api.delete(`/api/blogs/${blogID}`).expect(204)
+
+  // get updated blogs
+  response = await api.get('/api/blogs')
+  blogs = response.body
+  let deletedBlog = blogs.filter(x => x.id === blogID)
+  expect(blogs).toHaveLength(initialLength - 1)
+  expect(deletedBlog).toEqual([])
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
