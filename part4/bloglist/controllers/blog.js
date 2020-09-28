@@ -27,6 +27,20 @@ blogRouter.post('/blogs', (request, response, next) => {
     .catch(error => next(error))
 })
 
+blogRouter.put('/blogs/:id', (request, response, next) => {
+  const id = request.params.id
+  const body = request.body
+
+  const blogObject = {
+    id: id,
+    likes: body.likes
+  }
+  Blog.findByIdAndUpdate(id, blogObject, { new: true })
+    .then(updatedBlog => response.json(updatedBlog))
+    .catch(error => next(error))
+})
+
+
 blogRouter.delete('/blogs/:id', (request, response, next) => {
   const id = request.params.id
 

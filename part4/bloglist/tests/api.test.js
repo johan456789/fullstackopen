@@ -103,6 +103,26 @@ test('delete one blog post', async () => {
   expect(deletedBlog).toEqual([])
 })
 
+test('update one blog likes', async () => {
+  // get initial blogs
+  let response = await api.get('/api/blogs')
+  let blogs = response.body
+  const blogID = blogs[0].id
+
+  // update one blog likes
+  const newLikes = 123
+  await api.put(`/api/blogs/${blogID}`)
+    .send({ likes: newLikes })
+    .expect(200)
+
+  // get updated blogs
+  response = await api.get('/api/blogs')
+  blogs = response.body
+  let updatedBlog = blogs.filter(x => x.id === blogID)[0]
+  expect(updatedBlog.likes).toBe(newLikes)
+})
+
+
 afterAll(() => {
   mongoose.connection.close()
 })
