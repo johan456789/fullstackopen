@@ -7,3 +7,12 @@ content-type: application/json
   "url": "https://example.com",
   "like": 999
 }
+###
+POST http://localhost:3003/api/users
+content-type: application/json
+
+{
+  "username": "Test user",
+  "name": "Test name",
+  "password": "not_random_insecure_password"
+}
