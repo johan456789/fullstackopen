@@ -31,3 +31,7 @@ No screenshot
 ## ex4.15
 
 ![](https://i.imgur.com/QzS4UK4.jpg)
+
+## ex4.16
+
+No screenshot
