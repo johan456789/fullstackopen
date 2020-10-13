@@ -43,3 +43,13 @@ No screenshot
 ## ex4.20
 
 No screenshot
+
+## ex4.21
+
+### delete one's blog
+
+![](https://i.imgur.com/CqkSoUC.jpg)
+
+### delete other's blog
+
+![](https://i.imgur.com/KpUbcaR.jpg)
