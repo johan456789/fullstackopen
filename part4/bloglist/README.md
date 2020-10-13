@@ -39,3 +39,7 @@ No screenshot
 ## ex4.19
 
 ![](https://i.imgur.com/BgJPCzR.jpg)
+
+## ex4.20
+
+No screenshot
