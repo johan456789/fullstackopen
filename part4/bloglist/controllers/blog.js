@@ -13,7 +13,7 @@ blogRouter.post('/blogs', (request, response, next) => {
   const body = request.body
   if (!body.likes) {
     body.likes = 0
-  } else if (!body.title && !body.url) {
+  } else if (!body.title || !body.url) {
     response.status(400).end()
     return
   }

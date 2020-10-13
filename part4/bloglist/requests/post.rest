@@ -5,7 +5,7 @@ content-type: application/json
   "title": "Test",
   "author": "No name",
   "url": "https://example.com",
-  "like": 999
+  "likes": 999
 }
 ###
 POST http://localhost:3003/api/users
