@@ -1,5 +1,6 @@
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 blogRouter.get('/blogs', (request, response) => {
   Blog
@@ -17,6 +18,12 @@ blogRouter.post('/blogs', (request, response, next) => {
     response.status(400).end()
     return
   }
+
+  if (!body.author) {
+    const user = User.findOne({})
+    body['author'] = user.name
+  }
+
   const blog = new Blog(body)
 
   blog
