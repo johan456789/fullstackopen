@@ -5,12 +5,13 @@ const User = require('../models/user')
 blogRouter.get('/blogs', (request, response) => {
   Blog
     .find({})
+    .populate('user', { username: 1, name: 1 })
     .then(blogs => {
       response.json(blogs)
     })
 })
 
-blogRouter.post('/blogs', (request, response, next) => {
+blogRouter.post('/blogs', async (request, response, next) => {
   const body = request.body
   if (!body.likes) {
     body.likes = 0
@@ -19,19 +20,22 @@ blogRouter.post('/blogs', (request, response, next) => {
     return
   }
 
-  if (!body.author) {
-    const user = User.findOne({})
-    body['author'] = user.name
+  if (!body.user) {
+    const user = await User.findOne({})  // set default user as the first one
+    body.user = user._id
   }
 
-  const blog = new Blog(body)
+  try {
+    const blog = new Blog(body)
+    const user = await User.findById(body.user)
 
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
-    .catch(error => next(error))
+    const savedBlog = await blog.save()
+    user.blogs = user.blogs.concat(savedBlog._id)
+    await user.save()
+    response.status(201).json(savedBlog)
+  } catch (error) {
+    next(error)
+  }
 })
 
 blogRouter.put('/blogs/:id', (request, response, next) => {
