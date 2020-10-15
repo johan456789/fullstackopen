@@ -1,5 +1,17 @@
 const User = require('../models/user')
 
+const initialUser = {
+  blogs: [],
+  username: 'Test user',
+  name: 'Test name',
+  passwordHash: '$2b$10$NB45rENioPVTHtSsM35VcuJKRZ2.l5vhclyPoYnpXce6Bmz3wSlK2'
+  // password: "not_random_insecure_password"
+}
+
+const initialUserLoginInfo = {
+  username: 'Test user',
+  password: 'not_random_insecure_password'
+}
 
 const initialBlogs = [
   {
@@ -16,6 +28,8 @@ const usersInDb = async () => {
 }
 
 module.exports = {
+  initialUser,
+  initialUserLoginInfo,
   initialBlogs,
   usersInDb
 }

@@ -11,11 +11,23 @@ const api = supertest(app)
 describe('when there is initially one blog post in db', () => {
   beforeEach(async () => {
     await Blog.deleteMany({})
+    await User.deleteMany({})
 
+    // add initialUser
+    let userObject = new User(helper.initialUser)
+    await userObject.save()
+    const initialUserID = userObject._id
+
+    // assuming all blogs are made by initialUser
+    let blogIDs = []
     for (let blog of helper.initialBlogs) {
-      let blogObject = new Blog(blog)
+      let blogObject = new Blog({ ...blog, user: initialUserID })
       await blogObject.save()
+      blogIDs.push(blogObject._id)
     }
+
+    // add blog info to initialUser in DB
+    User.findByIdAndUpdate(initialUserID, { blogs: blogIDs }, { new: true })
   })
 
   test('getting blog posts', async () => {
