@@ -35,7 +35,7 @@ describe('when there is initially one blog post in db', () => {
     }
 
     // add blog info to initialUser in DB
-    User.findByIdAndUpdate(initialUserID, { blogs: blogIDs }, { new: true })
+    User.findByIdAndUpdate(initialUserID, { blogs: blogIDs }, { new: true, useFindAndModify: false })
   })
 
   test('getting blog posts', async () => {
