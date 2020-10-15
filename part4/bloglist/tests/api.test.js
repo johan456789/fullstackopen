@@ -170,6 +170,21 @@ describe('blog adding requests', () => {
       .send(newBlog)
       .expect(400)
   })
+
+  test('401 unauthorized if no token provided', async () => {
+    const newBlog = {
+      title: 'Test2',
+      author: 'No name2',
+      url: 'https://example.com2',
+    }
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => { })
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(401)
+    expect(spy).toHaveBeenCalled()
+    spy.mockRestore()
+  })
 })
 
 describe('when there is initially one user in db', () => {
