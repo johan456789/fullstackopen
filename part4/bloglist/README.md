@@ -53,3 +53,7 @@ No screenshot
 ### delete other's blog
 
 ![](https://i.imgur.com/KpUbcaR.jpg)
+
+## ex4.22
+
+![](https://i.imgur.com/wsgymda.jpg)

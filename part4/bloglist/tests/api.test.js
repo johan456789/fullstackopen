@@ -7,8 +7,20 @@ const helper = require('./test_helper')
 const bcrypt = require('bcrypt')
 
 const api = supertest(app)
-let initialUsersToken = null
+let initialUserID = null
+let initialUserToken = null
 
+const getInitialUserToken = async (api, { username, password }) => {
+  const response = await api
+    .post('/api/login')
+    .send({ username: username, password: password })
+  const token = response.body.token
+  if (token) {
+    return token
+  } else {
+    throw new Error(`${response.body.error}`)
+  }
+}
 
 describe('when there is initially one blog post in db', () => {
   beforeEach(async () => {
@@ -18,13 +30,7 @@ describe('when there is initially one blog post in db', () => {
     // add initialUser
     let userObject = new User(helper.initialUser)
     await userObject.save()
-    const initialUserID = userObject._id
-
-    // login as initialUser and get token
-    const response = await api
-      .post('/api/login')
-      .send(helper.initialUserLoginInfo)
-    initialUsersToken = response.body.token
+    initialUserID = userObject._id
 
     // assuming all blogs are made by initialUser
     let blogIDs = []
@@ -60,7 +66,11 @@ describe('when there is initially one blog post in db', () => {
     const initialLength = blogs.length
 
     // delete one blog
-    await api.delete(`/api/blogs/${blogID}`).expect(204)
+    initialUserToken = await getInitialUserToken(api, helper.initialUserLoginInfo)
+    await api
+      .delete(`/api/blogs/${blogID}`)
+      .set('Authorization', `bearer ${initialUserToken}`)
+      .expect(204)
 
     // get updated blogs
     response = await api.get('/api/blogs')
@@ -97,14 +107,22 @@ describe('blog adding requests', () => {
     let blogs = response.body
     const initialLength = blogs.length
 
+    // get initialUser
+    response = await api.get('/api/users')
+    let initialUser = response.body[0]
+    delete initialUser.blogs
+
     // add new blog post
     const newBlog = {
       title: 'Test2',
       author: 'No name2',
       url: 'https://example.com2',
-      likes: 1000
+      likes: 1000,
+      user: initialUser
     }
+    initialUserToken = await getInitialUserToken(api, helper.initialUserLoginInfo)
     response = await api.post('/api/blogs')
+      .set('Authorization', `bearer ${initialUserToken}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -126,7 +144,12 @@ describe('blog adding requests', () => {
       url: 'https://example.com2',
     }
 
-    let response = await api.post('/api/blogs').send(newBlog)
+    initialUserToken = await getInitialUserToken(api, helper.initialUserLoginInfo)
+    let response = await api
+      .post('/api/blogs')
+      .set('Authorization', `bearer ${initialUserToken}`)
+      .send(newBlog)
+      .expect(201)
     const blogID = response.body.id
 
     response = await api.get('/api/blogs')
@@ -141,7 +164,9 @@ describe('blog adding requests', () => {
       likes: 999
     }
 
+    initialUserToken = await getInitialUserToken(api, helper.initialUserLoginInfo)
     await api.post('/api/blogs')
+      .set('Authorization', `bearer ${initialUserToken}`)
       .send(newBlog)
       .expect(400)
   })
@@ -188,6 +213,7 @@ describe('when there is initially one user in db', () => {
       password: 'salainen',
     }
 
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => { })
     const result = await api
       .post('/api/users')
       .send(newUser)
@@ -195,6 +221,8 @@ describe('when there is initially one user in db', () => {
       .expect('Content-Type', /application\/json/)
 
     expect(result.body.error).toContain('`username` to be unique')
+    expect(spy).toHaveBeenCalled()
+    spy.mockRestore()
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)
