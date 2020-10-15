@@ -7,6 +7,8 @@ const helper = require('./test_helper')
 const bcrypt = require('bcrypt')
 
 const api = supertest(app)
+let initialUsersToken = null
+
 
 describe('when there is initially one blog post in db', () => {
   beforeEach(async () => {
@@ -17,6 +19,12 @@ describe('when there is initially one blog post in db', () => {
     let userObject = new User(helper.initialUser)
     await userObject.save()
     const initialUserID = userObject._id
+
+    // login as initialUser and get token
+    const response = await api
+      .post('/api/login')
+      .send(helper.initialUserLoginInfo)
+    initialUsersToken = response.body.token
 
     // assuming all blogs are made by initialUser
     let blogIDs = []
