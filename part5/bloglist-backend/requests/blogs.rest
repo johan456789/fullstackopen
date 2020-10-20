@@ -1,0 +1,21 @@
+POST http://localhost:3003/api/blogs
+content-type: application/json
+
+{
+  "title": "Test",
+  "author": "No name",
+  "url": "https://example.com",
+  "likes": 999
+}
+###
+POST http://localhost:3003/api/blogs
+content-type: application/json
+Authorization: bearer <token>
+
+{
+  "title": "Test",
+  "author": "No name",
+  "url": "https://example.com",
+  "likes": 999
+}
+###
