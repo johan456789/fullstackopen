@@ -61,12 +61,16 @@ const App = () => {
 
   const handleCreation = async (event) => {
     event.preventDefault()
-    console.log('create new note.')
+    console.log('create new blog.')
 
     try {
       const blog = await blogService.create({
         title, author, url
       })
+      setMessage([`a new blog ${blog.title} by ${blog.author} added`])
+      setTimeout(() => {
+        setMessage([null, null])
+      }, 1000)
       setTitle('')
       setAuthor('')
       setURL('')
