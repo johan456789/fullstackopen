@@ -7,3 +7,7 @@
 ## ex5.2
 
 ![](https://i.imgur.com/lLqFPjA.gif)
+
+## ex5.3
+
+![](https://i.imgur.com/kahlon1.jpg)
